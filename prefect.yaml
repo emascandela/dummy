@@ -1,0 +1,26 @@
+name: dummy
+pull:
+- prefect.deployments.steps.git_clone:
+  id: clone-step # needed to be referenced in subsequent steps
+  repository: https://github.com/emascandela/dummy.git
+- prefect.deployments.steps.pip_install_requirements:
+  directory: "{{ clone-step.directory }}" # `clone-step` is a user-provided `id` field
+  requirements_file: requirements.txt
+biuld:
+- prefect_docker.deployments.steps.build_docker_image:
+  requires: prefect-docker>=0.3.0
+  image_name: facephi-research-tf
+  tag: 23.06
+deployments:
+- name: dummy-flow
+  description: |-
+    Prints the results of nvidia-smi and performs a matrix multiplication a specific number of times.
+
+    Args:
+        num_operations (int, optional): The number of operations to be computed. Defaults to 1000.
+        n (int, optional): Number of columns in the matrix. Defaults to 100.
+        m (int, optional): Number of rows in the matrix. Defaults to 512.
+  entrypoint: dummy.py:dummy
+  work_pool:
+    name: cpu-pool
+    work_queue_name: medium
