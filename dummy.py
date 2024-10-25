@@ -12,6 +12,15 @@ def nvidia_smi_taks():
     time.sleep(2)
 
 @task()
+def list_production():
+    output = subprocess.check_output(["ls -ahl /mnt/ocean/production/"])
+    output = str(output.decode())
+    for out in output.split("\n"):
+        print(out)
+    time.sleep(2)
+
+
+@task()
 def mult_task(num_operations: int = 1000, n: int = 100, m: int = 512):
     total_time = 0
     for _ in range(num_operations):
