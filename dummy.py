@@ -6,6 +6,7 @@ import subprocess
 @task()
 def nvidia_smi_taks():
     output = subprocess.check_output(["nvidia-smi"])
+    output = output.decode()
     for out in output.split("\n"):
         print(out)
     time.sleep(2)
