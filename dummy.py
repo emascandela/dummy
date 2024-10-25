@@ -13,7 +13,7 @@ def nvidia_smi_taks():
 
 @task()
 def list_production():
-    output = subprocess.check_output(["ls -ahl /mnt/ocean/production/"])
+    output = subprocess.check_output("ls -ahl /mnt/ocean/production/".split())
     output = str(output.decode())
     for out in output.split("\n"):
         print(out)
