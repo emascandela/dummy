@@ -1,9 +1,7 @@
 import time
 import numpy as np
-from prefect import flow, task
 import subprocess
 
-@task()
 def nvidia_smi_taks():
     output = subprocess.check_output(["nvidia-smi"])
     output = str(output.decode())
@@ -11,7 +9,6 @@ def nvidia_smi_taks():
         print(out)
     time.sleep(2)
 
-@task()
 def mult_task(num_operations: int = 1000, n: int = 100, m: int = 512):
     total_time = 0
     for _ in range(num_operations):
@@ -24,7 +21,6 @@ def mult_task(num_operations: int = 1000, n: int = 100, m: int = 512):
     print(f"Performed {num_operations} [{n}x{m}] matrix operaitons in {total_time // num_operations} ns.")
     
 
-@flow(log_prints=True)
 def dummy(num_operations: int = 1000, n: int = 100, m: int = 512):
     """Performs a matrix multiplication a specific number of times.
 
