@@ -12,15 +12,6 @@ def nvidia_smi_taks():
     time.sleep(2)
 
 @task()
-def list_production():
-    output = subprocess.check_output("ls -ahl /mnt/ocean/production/".split())
-    output = str(output.decode())
-    for out in output.split("\n"):
-        print(out)
-    time.sleep(2)
-
-
-@task()
 def mult_task(num_operations: int = 1000, n: int = 100, m: int = 512):
     total_time = 0
     for _ in range(num_operations):
@@ -42,7 +33,6 @@ def dummy(num_operations: int = 1000, n: int = 100, m: int = 512):
         n (int, optional): Number of columns in the matrix. Defaults to 100.
         m (int, optional): Number of rows in the matrix. Defaults to 512.
     """
-    list_production()
     nvidia_smi_taks()
     mult_task(num_operations, n, m)
 
